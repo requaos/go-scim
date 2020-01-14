@@ -1,6 +1,8 @@
 package spec
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 const (
 	// SCIM data types defined in RFC7643

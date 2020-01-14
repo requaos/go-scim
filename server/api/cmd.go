@@ -3,15 +3,24 @@ package api
 import (
 	"context"
 	"fmt"
+	"net/http"
+
 	"github.com/imulab/go-scim/protocol/log"
+	"github.com/imulab/go-scim/server/args"
 	"github.com/julienschmidt/httprouter"
 	"github.com/urfave/cli/v2"
-	"net/http"
 )
 
 // Return a command to start a process of serving SCIM HTTP API.
 func Command() *cli.Command {
-	ag := new(arguments)
+	ag := &arguments{
+		Scim:     &args.Scim{},
+		Memory:   &args.Memory{},
+		Mongo:    &args.Mongo{},
+		Rabbit:   &args.Rabbit{},
+		Log:      &args.Log{},
+		httpPort: 0,
+	}
 	return &cli.Command{
 		Name:        "api",
 		Usage:       "Serves API for SCIM (Simple Cloud Identity Management) protocol",

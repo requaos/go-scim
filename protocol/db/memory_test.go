@@ -312,7 +312,7 @@ func (s *MemoryDBTestSuite) TestReplace() {
 		s.T().Run(test.name, func(t *testing.T) {
 			db := test.getDB(t)
 			replacement := test.getReplacement(t)
-			err := db.Replace(context.Background(), replacement)
+			err := db.Replace(context.Background(), replacement, replacement.Version())
 			test.expect(t, db, err)
 		})
 	}

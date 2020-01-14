@@ -3,12 +3,13 @@ package filter
 import (
 	"context"
 	"fmt"
+	"strings"
+
 	"github.com/imulab/go-scim/core/annotations"
 	"github.com/imulab/go-scim/core/errors"
 	"github.com/imulab/go-scim/core/prop"
 	"github.com/imulab/go-scim/core/spec"
 	"github.com/imulab/go-scim/protocol/db"
-	"strings"
 )
 
 // Create a ForResource filter that performs resource validation. Attributes checks such as required, canonicalValues,

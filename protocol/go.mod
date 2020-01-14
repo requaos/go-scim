@@ -8,3 +8,5 @@ require (
 )
 
 replace github.com/imulab/go-scim/core => ../core
+
+go 1.13

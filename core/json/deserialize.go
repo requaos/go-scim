@@ -4,6 +4,8 @@ import (
 	"github.com/imulab/go-scim/core/errors"
 	"github.com/imulab/go-scim/core/prop"
 	"github.com/imulab/go-scim/core/spec"
+	"fmt"
+	"runtime/debug"
 	"strconv"
 	"unicode"
 	"unicode/utf16"
@@ -102,6 +104,7 @@ func (d *deserializeState) errInvalidValue(msg string, args ...interface{}) erro
 // as much empty spaces and colon (appears as scanObjectKey) after it as possible.
 func (d *deserializeState) parseFieldName() (string, error) {
 	if d.opCode != scanBeginLiteral {
+		fmt.Printf("%d: %s\n%s\n", d.opCode, string(d.data), string(debug.Stack()))
 		return "", d.errInvalidSyntax("expects attribute name")
 	}
 

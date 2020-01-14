@@ -2,11 +2,12 @@ package args
 
 import (
 	"encoding/json"
-	"github.com/imulab/go-scim/core/spec"
-	"github.com/urfave/cli/v2"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/imulab/go-scim/core/spec"
+	"github.com/urfave/cli/v2"
 )
 
 type Scim struct {

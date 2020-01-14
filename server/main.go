@@ -1,11 +1,12 @@
 package main
 
 import (
+	"log"
+	"os"
+
 	"github.com/imulab/go-scim/server/api"
 	"github.com/imulab/go-scim/server/groupsync"
 	"github.com/urfave/cli/v2"
-	"log"
-	"os"
 )
 
 func main() {
@@ -25,6 +26,6 @@ func main() {
 		},
 	}
 	if err := app.Run(os.Args); err != nil {
-		log.Fatal(err)
+		log.Fatalf("%T: %+v\n", err, err)
 	}
 }

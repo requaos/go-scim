@@ -3,6 +3,8 @@ package mongo
 import (
 	"context"
 	"fmt"
+	"strconv"
+
 	"github.com/imulab/go-scim/core/errors"
 	"github.com/imulab/go-scim/core/expr"
 	"github.com/imulab/go-scim/core/prop"
@@ -13,7 +15,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"strconv"
 )
 
 // Create a db.DB implementation that persists data in MongoDB. This implementation supports one-to-one correspondence
@@ -141,16 +142,18 @@ func (d *mongoDB) Get(ctx context.Context, id string, projection *crud.Projectio
 	return w.Resource(), nil
 }
 
-func (d *mongoDB) Replace(ctx context.Context, resource *prop.Resource) error {
+func (d *mongoDB) Replace(ctx context.Context, resource *prop.Resource, oldVersion string) error {
 	var (
 		id      = resource.ID()
 		version = resource.Version()
 	)
-	tf, err := d.mongoFilter(fmt.Sprintf("(id eq %s) and (meta.version eq %s)", strconv.Quote(id), strconv.Quote(version)))
+	tf, err := d.mongoFilter(fmt.Sprintf("(id eq %s) and (meta.version eq %s)", strconv.Quote(id), strconv.Quote(oldVersion)))
 	if err != nil {
 		return err
 	}
 
+	data, _ := newBsonAdapter(resource).MarshalBSON()
+	fmt.Println(string(data))
 	sr := d.coll.FindOneAndReplace(ctx, tf, newBsonAdapter(resource), options.FindOneAndReplace())
 	if err := sr.Err(); err != nil {
 		d.logger.Error("failed to replace resource in mongo", log.Args{

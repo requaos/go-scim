@@ -1,6 +1,8 @@
 package api
 
 import (
+	"fmt"
+
 	"github.com/imulab/go-scim/core/expr"
 	"github.com/imulab/go-scim/core/spec"
 	scimmongo "github.com/imulab/go-scim/mongo"
@@ -120,6 +122,7 @@ func (c *appContext) initialize(args *arguments) (err error) {
 	// group related
 	c.loadGroupDatabase(args)
 	if err = c.loadGroupServices(); err != nil {
+		fmt.Println("Error loading group services...")
 		return
 	}
 	c.loadGroupHandlers()
@@ -164,7 +167,7 @@ func (c *appContext) loadGroupHandlers() {
 	c.groupCreateHandler = &handler.Create{
 		Log:          c.logger,
 		Service:      c.groupCreateService,
-		ResourceType: c.userResourceType,
+		ResourceType: c.groupResourceType,
 	}
 	c.groupReplaceHandler = &handler.Replace{
 		Log:                 c.logger,
@@ -317,6 +320,6 @@ func (c *appContext) loadGroupDatabase(args *arguments) {
 		c.groupDatabase = db.Memory()
 	} else {
 		coll := c.mongoClient.Database(args.Mongo.Database, options.Database()).Collection(c.groupResourceType.Name(), options.Collection())
-		c.userDatabase = scimmongo.DB(c.groupResourceType, c.logger, coll, scimmongo.Options())
+		c.groupDatabase = scimmongo.DB(c.groupResourceType, c.logger, coll, scimmongo.Options())
 	}
 }

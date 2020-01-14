@@ -17,7 +17,7 @@ type DB interface {
 	// additional processing.
 	Get(ctx context.Context, id string, projection *crud.Projection) (*prop.Resource, error)
 	// Overwrite the existing resource with same ID with the new resource
-	Replace(ctx context.Context, resource *prop.Resource) error
+	Replace(ctx context.Context, resource *prop.Resource, oldVersion string) error
 	// Delete a resource
 	Delete(ctx context.Context, resource *prop.Resource) error
 	// Query resources. The projection parameter specifies the attributes to be included or excluded from the

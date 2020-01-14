@@ -55,7 +55,7 @@ func (s *ReplaceService) ReplaceResource(ctx context.Context, request *ReplaceRe
 
 	// Only replace when version is bumped
 	if request.Payload.Version() != ref.Version() {
-		err = s.Database.Replace(ctx, request.Payload)
+		err = s.Database.Replace(ctx, request.Payload, ref.Version())
 		if err != nil {
 			s.Logger.Error("failed to save into persistence", log.Args{
 				"resourceId": request.ResourceID,

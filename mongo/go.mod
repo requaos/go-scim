@@ -37,3 +37,5 @@ require (
 replace github.com/imulab/go-scim/core => ../core
 
 replace github.com/imulab/go-scim/protocol => ../protocol
+
+go 1.13

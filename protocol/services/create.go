@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+
 	"github.com/imulab/go-scim/core/prop"
 	"github.com/imulab/go-scim/protocol/db"
 	"github.com/imulab/go-scim/protocol/event"

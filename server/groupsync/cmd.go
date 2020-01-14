@@ -2,16 +2,25 @@ package groupsync
 
 import (
 	"context"
-	"github.com/imulab/go-scim/protocol/log"
-	"github.com/urfave/cli/v2"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/imulab/go-scim/protocol/log"
+	"github.com/imulab/go-scim/server/args"
+	"github.com/urfave/cli/v2"
 )
 
 // Return a command that starts a process to synchronize group membership of user resources.
 func Command() *cli.Command {
-	ag := new(arguments)
+	ag := &arguments{
+		Scim:     &args.Scim{},
+		Memory:   &args.Memory{},
+		Mongo:    &args.Mongo{},
+		Rabbit:   &args.Rabbit{},
+		Log:      &args.Log{},
+		requeueLimit: 0,
+	}
 	return &cli.Command{
 		Name:        "group-sync",
 		Aliases:     []string{"gs", "sync"},

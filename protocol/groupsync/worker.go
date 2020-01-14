@@ -47,6 +47,7 @@ func (w *worker) start() {
 
 func (w *worker) syncTop(sync *prop.Resource) bool {
 	beforeHash := sync.Hash()
+	beforeVersion := sync.Version()
 
 	nav := sync.NewFluentNavigator().FocusName("diff")
 	diffs, err := nav.CurrentAsContainer(), nav.Error()
@@ -62,7 +63,7 @@ func (w *worker) syncTop(sync *prop.Resource) bool {
 				w.errChan <- err
 			}
 		} else if beforeHash != sync.Hash() {
-			if err := w.groupSyncDB.Replace(context.Background(), sync); err != nil {
+			if err := w.groupSyncDB.Replace(context.Background(), sync, beforeVersion); err != nil {
 				w.errChan <- err
 			}
 		}
@@ -149,6 +150,7 @@ func (w *worker) syncDirect(sync *prop.Resource, diff prop.Container) error {
 	if err != nil {
 		return err
 	}
+	userVersion := user.Version()
 
 	nav := user.NewFluentNavigator().FocusName("groups")
 	if nav.Error() != nil {
@@ -164,7 +166,7 @@ func (w *worker) syncDirect(sync *prop.Resource, diff prop.Container) error {
 			return err
 		}
 	}
-	if err := w.userDB.Replace(context.Background(), user); err != nil {
+	if err := w.userDB.Replace(context.Background(), user, userVersion); err != nil {
 		return err
 	}
 

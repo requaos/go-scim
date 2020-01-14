@@ -126,7 +126,7 @@ func (s *PatchService) PatchResource(ctx context.Context, request *PatchRequest)
 
 	// Only replace when version is bumped
 	if resource.Version() != ref.Version() {
-		err = s.Database.Replace(ctx, resource)
+		err = s.Database.Replace(ctx, resource, ref.Version())
 		if err != nil {
 			s.Logger.Error("failed to save to persistence", log.Args{
 				"resourceId": request.ResourceID,

@@ -5,6 +5,7 @@ require (
 	github.com/imulab/go-scim/mongo v0.0.0
 	github.com/imulab/go-scim/protocol v0.0.0
 	github.com/julienschmidt/httprouter v1.3.0
+	github.com/markbates/pkger v0.13.0
 	github.com/rs/zerolog v1.17.2
 	github.com/satori/go.uuid v1.2.0
 	github.com/streadway/amqp v0.0.0-20190827072141-edfb9018d271
@@ -17,3 +18,5 @@ replace github.com/imulab/go-scim/core => ../core
 replace github.com/imulab/go-scim/protocol => ../protocol
 
 replace github.com/imulab/go-scim/mongo => ../mongo
+
+go 1.13

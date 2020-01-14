@@ -69,7 +69,7 @@ func (m *memoryDB) Count(ctx context.Context, filter string) (int, error) {
 	return n, nil
 }
 
-func (m *memoryDB) Replace(ctx context.Context, resource *prop.Resource) error {
+func (m *memoryDB) Replace(ctx context.Context, resource *prop.Resource, oldVersion string) error {
 	id := resource.ID()
 	_, ok := m.db[id]
 	if !ok {

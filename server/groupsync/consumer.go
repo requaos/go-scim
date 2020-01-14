@@ -4,13 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"time"
+
 	"github.com/imulab/go-scim/core/prop"
 	"github.com/imulab/go-scim/protocol/db"
 	"github.com/imulab/go-scim/protocol/groupsync"
 	"github.com/imulab/go-scim/protocol/log"
 	uuid "github.com/satori/go.uuid"
 	"github.com/streadway/amqp"
-	"time"
 )
 
 // Start the message consuming process with the cancellable context and return a safe exit channel. The cancellable
@@ -94,7 +95,7 @@ func (c *consumer) handle(msg amqp.Delivery) {
 	}
 
 	if user, err := c.userDB.Get(context.Background(), message.MemberID, nil); err == nil && user != nil {
-		if err := c.syncUserGroup(user); err != nil {
+		if err := c.syncUserGroup(user, user.Version()); err != nil {
 			c.logger.Error("error encountered while syncing user group, will requeue", log.Args{
 				"error":   err,
 				"message": fmt.Sprintf("%+v", message),
@@ -132,11 +133,11 @@ func (c *consumer) handle(msg amqp.Delivery) {
 	})
 }
 
-func (c *consumer) syncUserGroup(user *prop.Resource) error {
+func (c *consumer) syncUserGroup(user *prop.Resource, oldVersion string) error {
 	if err := groupsync.Refresher(c.groupDB).Refresh(context.Background(), user); err != nil {
 		return err
 	}
-	if err := c.userDB.Replace(context.Background(), user); err != nil {
+	if err := c.userDB.Replace(context.Background(), user, oldVersion); err != nil {
 		return err
 	}
 	return nil
