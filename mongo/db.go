@@ -152,8 +152,6 @@ func (d *mongoDB) Replace(ctx context.Context, resource *prop.Resource, oldVersi
 		return err
 	}
 
-	data, _ := newBsonAdapter(resource).MarshalBSON()
-	fmt.Println(string(data))
 	sr := d.coll.FindOneAndReplace(ctx, tf, newBsonAdapter(resource), options.FindOneAndReplace())
 	if err := sr.Err(); err != nil {
 		d.logger.Error("failed to replace resource in mongo", log.Args{

@@ -473,7 +473,7 @@
         },
         {
           "id": "urn:ietf:params:scim:schemas:core:2.0:User:groups.$ref",
-          "name": "ref",
+          "name": "$ref",
           "type": "reference",
           "mutability": "readOnly",
           "_index": 1,
