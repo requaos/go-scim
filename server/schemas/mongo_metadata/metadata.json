@@ -9,6 +9,11 @@
       "id": "urn:ietf:params:scim:schemas:core:2.0:Group:members.$ref",
       "mongoName": "ref",
       "mongoPath": "members.ref"
+    },
+    {
+      "id": "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:manager.$ref",
+      "mongoName": "ref",
+      "mongoPath": "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:manager.ref"
     }
   ]
 }
